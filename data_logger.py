@@ -22,34 +22,29 @@ logging.basicConfig(filename="logfile.log",
                     level=logging.INFO,
                     datefmt='%H:%M:%S')
 while True:
-    timestamp = time.strftime("%j,%H:%M:%S", time.gmtime(time.time()))
-    ser_bytes_1 = ser.readline()
-    #print(ser_bytes_1)
-    ser_bytes = ser_bytes_1.decode("utf-8")
-    #print(type(ser_bytes_1))
-    #print(ser_bytes)
-    # print(ser_bytes.isEmpty())
+    try:
+        timestamp = time.strftime("%j,%H:%M:%S", time.gmtime(time.time()))
+        ser_bytes_1 = ser.readline()
+        ser_bytes = ser_bytes_1.decode("utf-8")
 
-    decoded_bytes = ser_bytes.split(';')
-    #print(decoded_bytes)
+        decoded_bytes = ser_bytes.split(';')
 
-    logData = timestamp + "  " + ser_bytes
-    logging.info(logData)
-    if len(decoded_bytes) >2:
-        with open("test_data.csv", "a") as f:
-            print("Writing to csv")
-            writer = csv.writer(f, delimiter=',')
-            print(timestamp)
-            print(decoded_bytes)
+        logData = timestamp + "  " + ser_bytes
+        logging.info(logData)
+        if len(decoded_bytes) > 2:
+            with open("test_data.csv", "a") as f:
+                print("Writing to csv")
+                writer = csv.writer(f, delimiter=',')
+                print(timestamp)
+                print(decoded_bytes)
 
-            writer.writerow([
-                timestamp, decoded_bytes[0], decoded_bytes[1], decoded_bytes[2],
-                decoded_bytes[3], decoded_bytes[4], decoded_bytes[5]
-            ])
-            #time.sleep(2)
-    '''
-except:
+                writer.writerow([
+                    timestamp, decoded_bytes[0], decoded_bytes[1],
+                    decoded_bytes[2], decoded_bytes[3], decoded_bytes[4],
+                    decoded_bytes[5]
+                ])
+                #time.sleep(2)
+    except:
         # just incase if there is any exceptions during runtime
         logData = timestamp + "   Something went wrong!!"
         logging.info(logData)
-'''
